@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+rm -rf py-virtenv
+mkdir py-virtenv
+touch py-virtenv/empty
