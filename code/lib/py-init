@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+BASEDIR=$(dirname $0)
+
+virtualenv --python=python3 "$BASEDIR/python/"
+source "$BASEDIR/python/bin/activate"
+
+pip install -r "$BASEDIR/py-requirements.txt"

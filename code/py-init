@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-
-virtualenv --python=python3 ./py-virtenv/
-source ./py-virtenv/bin/activate
-
-pip install -r py-requirements.txt

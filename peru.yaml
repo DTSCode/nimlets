@@ -1,17 +1,18 @@
 imports:
-  gridism|css: stylesheets/
-  discount: code/discount/
+  gridism: stylesheets/
+  discount: code/lib/discount/
+  hastyscribe: code/lib/
 
 git module gridism:
   url: https://github.com/cobyism/gridism.git
-
-rule css:
   files: gridism.css
 
 curl module discount:
   url: http://www.pell.portland.or.us/~orc/Code/discount/discount-2.1.6.tar.bz2
   build: tar xjf discount-2.1.6.tar.bz2
+  export: discount-2.1.6/
 
 git module hastyscribe:
   url: https://github.com/h3rald/hastyscribe.git
+  files: markdown.nim
 
