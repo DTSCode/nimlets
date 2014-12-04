@@ -7,7 +7,10 @@ mkdir "$BASEDIR/python"
 virtualenv --python=python3 "$BASEDIR/python/"
 source "$BASEDIR/python/bin/activate"
 
-pip install -r <<-EOF
+requirements=$(mktemp)
+trap "rm $requirements" EXIT
+
+tee $requirements <<-EOF >/dev/null
   PyYAML==3.11
   Pygments==2.0.1
   asyncio==3.4.1
@@ -15,3 +18,5 @@ pip install -r <<-EOF
   pathlib==1.0.1
   peru==0.1.1
 EOF
+
+pip install -r $requirements
