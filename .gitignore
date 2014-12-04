@@ -4,5 +4,8 @@
 
 /code/lib/python
 /code/lib/discount
+/code/lib/libyaml
 
 nimcache
+
+/code/snippet2html
