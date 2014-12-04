@@ -4,7 +4,6 @@ BASEDIR=$(dirname $0)
 
 cd $BASEDIR
 
-code/lib/py-clean
 code/lib/py-init
 source code/lib/python/bin/activate
 

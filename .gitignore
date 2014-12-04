@@ -1,7 +1,8 @@
 .peru
 
-stylesheets/gridism.css
+/stylesheets/gridism.css
 
-code/lib/python
-code/lib/discount
-code/lib/markdown.nim
+/code/lib/python
+/code/lib/discount
+
+nimcache
