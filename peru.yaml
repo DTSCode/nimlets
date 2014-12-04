@@ -1,7 +1,7 @@
 imports:
   gridism: stylesheets/
   discount: code/lib/discount/
-  libyaml: code/lib/libyaml
+  libyaml: code/lib/libyaml/
 
 git module gridism:
   url: https://github.com/cobyism/gridism.git
@@ -14,9 +14,10 @@ curl module discount:
     cd discount-2.1.6;
     ./configure.sh;
     make
+  export: discount-2.1.6/
   files:
-    - discount-2.1.6/libmarkdown.a
-    - discount-2.1.6/markdown.h
+    - markdown.h
+    - libmarkdown.a
 
 curl module libyaml:
   url: http://pyyaml.org/download/libyaml/yaml-0.1.5.tar.gz
@@ -24,7 +25,10 @@ curl module libyaml:
     tar xzf yaml-0.1.5.tar.gz;
     cd yaml-0.1.5/;
     ./configure;
-    make
+    make;
+    cp src/.libs/libyaml.a libyaml.a;
+    cp include/yaml.h yaml.h
+  export: yaml-0.1.5/
   files:
-    - yaml-0.1.5/src/.libs/libyaml.a
-    - yaml-0.1.5/include/yaml.h
+    - libyaml.a
+    - yaml.h
