@@ -8,4 +8,5 @@
 
 nimcache
 
-/code/snippet2html
+/code/*
+/code/*.*
