@@ -472,6 +472,7 @@ type
     anchors*: ptr INNER_C_STRUCT_11864533033166503222
     last_anchor_id*: cint
     document*: ptr yaml_document_t
+
 {.push importc, cdecl.}
 proc yaml_get_version_string*(): cstring
 proc yaml_get_version*(major: ptr cint; minor: ptr cint; patch: ptr cint)
