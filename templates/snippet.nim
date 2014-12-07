@@ -1,5 +1,7 @@
 from strutils import `%`
 import util
+from parse_snippets import Snippet
+import base
 
 proc renderTags(tags: seq[string]): string =
   result = ""
@@ -10,9 +12,7 @@ proc renderTags(tags: seq[string]): string =
         escapeHtml(tag),
     ])
 
-proc renderSnippet*(name, author: string,
-                    tags: seq[string],
-                    description, code: string): string =
+proc renderSnippet(snippet: Snippet): string =
   return """
   <div class=grid>
     <h1 class="unit whole snippet-name">$#</h1>
@@ -30,9 +30,13 @@ proc renderSnippet*(name, author: string,
     <div class="unit whole snippet-code">$#</div>
   </div>
   """ % [
-    escapeHtml(name),
-    escapeHtml(author),
-    renderTags(tags),
-    description,
-    code,
+    escapeHtml(snippet.title),
+    escapeHtml(snippet.author),
+    renderTags(snippet.tags),
+    snippet.description,
+    snippet.code,
   ]
+
+proc renderSnippetPage*(snippet: Snippet): string =
+  return renderBase(inner = renderSnippet(snippet), title = snippet.title)
+

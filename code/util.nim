@@ -3,7 +3,7 @@ proc escapedStringLen(origLen: int): int =
   # 1.1x original size
   return origLen + origLen div 10
 
-proc escapeHtml(str: string): string =
+proc escapeHtml*(str: string): string =
   result = newStringOfCap(escapedStringLen(str.len))
   for c in str:
     case c
@@ -12,7 +12,7 @@ proc escapeHtml(str: string): string =
     else:
       result.add(c)
 
-proc escapeUrlComponent(str: string): string =
+proc escapeUrlComponent*(str: string): string =
   result = newStringOfCap(escapedStringLen(str.len))
   for c in str:
     case c
