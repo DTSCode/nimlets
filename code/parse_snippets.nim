@@ -1,6 +1,8 @@
-from os import commandLineParams
 from strutils import splitLines, `%`, strip
 from re import `=~`, re
+import pygments
+import yaml
+from markdown import nil
 
 type
   FileSection {.pure.} = enum InStart, InHeader, InRest
@@ -44,22 +46,23 @@ type
     code*: string
 
 proc parseMetadata(header: string): Snippet =
-  discard
+  let parsedHeader = yaml.load(header)[0]
+
+  result.title = parsedHeader.title.get(string)
+  result.author = parsedHeader.author.get(string)
+  result.tags = @[]
+
+  for tag in parsedHeader.tags:
+    result.tags.add(tag.get(string))
 
 proc parseSnippet*(text: string): Snippet =
+  # Parses the snippet, but it blocks. Make sure to
+  # run multiple in seperate threads
   let (metadata, rest) = splitHeader(text)
   let (description, code) = splitHeader(rest)
 
   result = parseMetadata(metadata)
-  result.code = code
-  result.description = description
+  result.code = renderCode(code, "nimrod")
+  result.description = markdown.render(description)
 
-
-when defined(test):
-  doAssert(splitHeader("""
-## 123
-## ##
-
-## foo bar
-echo 1+2
-""") == ("123\n##\n", "\n## foo bar\necho 1+2\n\n"))
+echo(parseSnippet(readFile("../snippets/test.nim")))
