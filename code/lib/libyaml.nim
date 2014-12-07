@@ -1,13 +1,11 @@
 type
-  yaml_char_t* = cuchar
-type
   yaml_version_directive_t* = object
     major*: cint
     minor*: cint
 type
   yaml_tag_directive_t* = object
-    handle*: ptr yaml_char_t
-    prefix*: ptr yaml_char_t
+    handle*: cstring
+    prefix*: cstring
 type
   yaml_encoding_t* {.size: sizeof(cint).} = enum
     YAML_ANY_ENCODING,
@@ -81,22 +79,22 @@ type
   INNER_C_STRUCT_9581966235636552858* = object
     encoding*: yaml_encoding_t
   INNER_C_STRUCT_1221667129857401972* = object
-    value*: ptr yaml_char_t
+    value*: cstring
   INNER_C_STRUCT_3317256698323717696* = object
-    value*: ptr yaml_char_t
+    value*: cstring
   INNER_C_STRUCT_5441002398333014240* = object
-    handle*: ptr yaml_char_t
-    suffix*: ptr yaml_char_t
+    handle*: cstring
+    suffix*: cstring
   INNER_C_STRUCT_7453632048426669727* = object
-    value*: ptr yaml_char_t
+    value*: cstring
     length*: csize
     style*: yaml_scalar_style_t
   INNER_C_STRUCT_9783180209656813162* = object
     major*: cint
     minor*: cint
   INNER_C_STRUCT_13940099295483927389* = object
-    handle*: ptr yaml_char_t
-    prefix*: ptr yaml_char_t
+    handle*: cstring
+    prefix*: cstring
   INNER_C_UNION_9404448031707501477* = object  {.union.}
     stream_start*: INNER_C_STRUCT_9581966235636552858
     alias*: INNER_C_STRUCT_1221667129857401972
@@ -136,23 +134,23 @@ type
   INNER_C_STRUCT_6989068223488568623* = object
     implicit*: cint
   INNER_C_STRUCT_12004643997943399240* = object
-    anchor*: ptr yaml_char_t
+    anchor*: cstring
   INNER_C_STRUCT_14974408632587267100* = object
-    anchor*: ptr yaml_char_t
-    tag*: ptr yaml_char_t
-    value*: ptr yaml_char_t
+    anchor*: cstring
+    tag*: cstring
+    value*: cstring
     length*: csize
     plain_implicit*: cint
     quoted_implicit*: cint
     style*: yaml_scalar_style_t
   INNER_C_STRUCT_17970865806594553108* = object
-    anchor*: ptr yaml_char_t
-    tag*: ptr yaml_char_t
+    anchor*: cstring
+    tag*: cstring
     implicit*: cint
     style*: yaml_sequence_style_t
   INNER_C_STRUCT_1674767092908407322* = object
-    anchor*: ptr yaml_char_t
-    tag*: ptr yaml_char_t
+    anchor*: cstring
+    tag*: cstring
     implicit*: cint
     style*: yaml_mapping_style_t
   INNER_C_UNION_14299011587659785980* = object  {.union.}
@@ -179,6 +177,17 @@ const YAML_MAP_TAG* = "tag:yaml.org,2002:map"
 const YAML_DEFAULT_SCALAR_TAG* = YAML_STR_TAG
 const YAML_DEFAULT_SEQUENCE_TAG* = YAML_SEQ_TAG
 const YAML_DEFAULT_MAPPING_TAG* = YAML_MAP_TAG
+var YAML_VNULL_TAG* = "tag:yaml.org,2002:null"
+var YAML_VBOOL_TAG* = "tag:yaml.org,2002:bool"
+var YAML_VSTR_TAG* = "tag:yaml.org,2002:str"
+var YAML_VINT_TAG* = "tag:yaml.org,2002:int"
+var YAML_VFLOAT_TAG* = "tag:yaml.org,2002:float"
+var YAML_VTIMESTAMP_TAG* = "tag:yaml.org,2002:timestamp"
+var YAML_VSEQ_TAG* = "tag:yaml.org,2002:seq"
+var YAML_VMAP_TAG* = "tag:yaml.org,2002:map"
+var YAML_VDEFAULT_SCALAR_TAG* = YAML_STR_TAG
+var YAML_VDEFAULT_SEQUENCE_TAG* = YAML_SEQ_TAG
+var YAML_VDEFAULT_MAPPING_TAG* = YAML_MAP_TAG
 type
   yaml_node_type_t* {.size: sizeof(cint).} = enum
     YAML_NO_NODE,
@@ -191,7 +200,7 @@ type
     key*: cint
     value*: cint
   INNER_C_STRUCT_2771607800107246221* = object
-    value*: ptr yaml_char_t
+    value*: cstring
     length*: csize
     style*: yaml_scalar_style_t
   INNER_C_STRUCT_16176656515014249903* = object
@@ -214,7 +223,7 @@ type
     mapping*: INNER_C_STRUCT_11518003446976276318
   yaml_node_s* = object
     typ*: yaml_node_type_t
-    tag*: ptr yaml_char_t
+    tag*: cstring
     data*: INNER_C_UNION_9402779093446787060
     start_mark*: yaml_mark_t
     end_mark*: yaml_mark_t
@@ -235,7 +244,7 @@ type
     start_mark*: yaml_mark_t
     end_mark*: yaml_mark_t
 type
-  yaml_read_handler_t* = proc (data: pointer; buffer: ptr cuchar; size: csize;
+  yaml_read_handler_t* = proc (data: pointer; buffer: cstring; size: csize;
                                size_read: ptr csize): cint
 type
   yaml_simple_key_t* = object
@@ -271,27 +280,27 @@ type
     YAML_PARSE_END_STATE
 type
   yaml_alias_data_t* = object
-    anchor*: ptr yaml_char_t
+    anchor*: cstring
     index*: cint
     mark*: yaml_mark_t
 type
   INNER_C_STRUCT_16371464751651700497* = object
-    start*: ptr cuchar
-    endd*: ptr cuchar
-    current*: ptr cuchar
+    start*: cstring
+    endd*: cstring
+    current*: cstring
   INNER_C_UNION_14844535658673536178* = object  {.union.}
     string*: INNER_C_STRUCT_16371464751651700497
     file*: ptr FILE
   INNER_C_STRUCT_5449995434778144246* = object
-    start*: ptr yaml_char_t
-    endd*: ptr yaml_char_t
-    pointer*: ptr yaml_char_t
-    last*: ptr yaml_char_t
+    start*: cstring
+    endd*: cstring
+    pointer*: cstring
+    last*: cstring
   INNER_C_STRUCT_1533468219873624615* = object
-    start*: ptr cuchar
-    endd*: ptr cuchar
-    pointer*: ptr cuchar
-    last*: ptr cuchar
+    start*: cstring
+    endd*: cstring
+    pointer*: cstring
+    last*: cstring
   INNER_C_STRUCT_12302340786945222376* = object
     start*: ptr yaml_token_t
     endd*: ptr yaml_token_t
@@ -356,7 +365,7 @@ type
     aliases*: INNER_C_STRUCT_7828170433486051057
     document*: ptr yaml_document_t
 type
-  yaml_write_handler_t* = proc (data: pointer; buffer: ptr cuchar; size: csize): cint
+  yaml_write_handler_t* = proc (data: pointer; buffer: cstring; size: csize): cint
 type
   yaml_emitter_state_t* {.size: sizeof(cint).} = enum
     YAML_EMIT_STREAM_START_STATE,
@@ -379,22 +388,22 @@ type
     YAML_EMIT_END_STATE
 type
   INNER_C_STRUCT_12749614999235445465* = object
-    buffer*: ptr cuchar
+    buffer*: cstring
     size*: csize
     size_written*: ptr csize
   INNER_C_UNION_12199099344959672631* = object  {.union.}
     string*: INNER_C_STRUCT_12749614999235445465
     file*: ptr FILE
   INNER_C_STRUCT_12563198298657885016* = object
-    start*: ptr yaml_char_t
-    endd*: ptr yaml_char_t
-    pointer*: ptr yaml_char_t
-    last*: ptr yaml_char_t
+    start*: cstring
+    endd*: cstring
+    pointer*: cstring
+    last*: cstring
   INNER_C_STRUCT_2333930655588273530* = object
-    start*: ptr cuchar
-    endd*: ptr cuchar
-    pointer*: ptr cuchar
-    last*: ptr cuchar
+    start*: cstring
+    endd*: cstring
+    pointer*: cstring
+    last*: cstring
   INNER_C_STRUCT_3757196451896818589* = object
     start*: ptr yaml_emitter_state_t
     endd*: ptr yaml_emitter_state_t
@@ -413,16 +422,16 @@ type
     endd*: ptr yaml_tag_directive_t
     top*: ptr yaml_tag_directive_t
   INNER_C_STRUCT_1556210231363541236* = object
-    anchor*: ptr yaml_char_t
+    anchor*: cstring
     anchor_length*: csize
     alias*: cint
   INNER_C_STRUCT_17739845129940504956* = object
-    handle*: ptr yaml_char_t
+    handle*: cstring
     handle_length*: csize
-    suffix*: ptr yaml_char_t
+    suffix*: cstring
     suffix_length*: csize
   INNER_C_STRUCT_2932767511639488752* = object
-    value*: ptr yaml_char_t
+    value*: cstring
     length*: csize
     multiline*: cint
     flow_plain_allowed*: cint
@@ -486,19 +495,19 @@ proc yaml_document_start_event_initialize*(event: ptr yaml_event_t;
     tag_directives_end: ptr yaml_tag_directive_t; implicit: cint): cint
 proc yaml_document_end_event_initialize*(event: ptr yaml_event_t; implicit: cint): cint
 proc yaml_alias_event_initialize*(event: ptr yaml_event_t;
-                                  anchor: ptr yaml_char_t): cint
+                                  anchor: cstring): cint
 proc yaml_scalar_event_initialize*(event: ptr yaml_event_t;
-                                   anchor: ptr yaml_char_t;
-                                   tag: ptr yaml_char_t; value: ptr yaml_char_t;
+                                   anchor: cstring;
+                                   tag: cstring; value: cstring;
                                    length: cint; plain_implicit: cint;
                                    quoted_implicit: cint;
                                    style: yaml_scalar_style_t): cint
 proc yaml_sequence_start_event_initialize*(event: ptr yaml_event_t;
-    anchor: ptr yaml_char_t; tag: ptr yaml_char_t; implicit: cint;
+    anchor: cstring; tag: cstring; implicit: cint;
     style: yaml_sequence_style_t): cint
 proc yaml_sequence_end_event_initialize*(event: ptr yaml_event_t): cint
 proc yaml_mapping_start_event_initialize*(event: ptr yaml_event_t;
-    anchor: ptr yaml_char_t; tag: ptr yaml_char_t; implicit: cint;
+    anchor: cstring; tag: cstring; implicit: cint;
     style: yaml_mapping_style_t): cint
 proc yaml_mapping_end_event_initialize*(event: ptr yaml_event_t): cint
 proc yaml_event_delete*(event: ptr yaml_event_t)
@@ -511,13 +520,13 @@ proc yaml_document_delete*(document: ptr yaml_document_t)
 proc yaml_document_get_node*(document: ptr yaml_document_t; index: cint): ptr yaml_node_t
 proc yaml_document_get_root_node*(document: ptr yaml_document_t): ptr yaml_node_t
 proc yaml_document_add_scalar*(document: ptr yaml_document_t;
-                               tag: ptr yaml_char_t; value: ptr yaml_char_t;
+                               tag: cstring; value: cstring;
                                length: cint; style: yaml_scalar_style_t): cint
 proc yaml_document_add_sequence*(document: ptr yaml_document_t;
-                                 tag: ptr yaml_char_t;
+                                 tag: cstring;
                                  style: yaml_sequence_style_t): cint
 proc yaml_document_add_mapping*(document: ptr yaml_document_t;
-                                tag: ptr yaml_char_t;
+                                tag: cstring;
                                 style: yaml_mapping_style_t): cint
 proc yaml_document_append_sequence_item*(document: ptr yaml_document_t;
     sequence: cint; item: cint): cint
@@ -538,7 +547,7 @@ proc yaml_parser_load*(parser: ptr yaml_parser_t; document: ptr yaml_document_t)
 proc yaml_emitter_initialize*(emitter: ptr yaml_emitter_t): cint
 proc yaml_emitter_delete*(emitter: ptr yaml_emitter_t)
 proc yaml_emitter_set_output_string*(emitter: ptr yaml_emitter_t;
-                                     output: ptr cuchar; size: csize;
+                                     output: cstring; size: csize;
                                      size_written: ptr csize)
 proc yaml_emitter_set_output_file*(emitter: ptr yaml_emitter_t; file: ptr FILE)
 proc yaml_emitter_set_output*(emitter: ptr yaml_emitter_t;
