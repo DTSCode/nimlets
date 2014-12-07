@@ -9,6 +9,9 @@
 ## http://www.pell.portland.or.us/~orc/Code/discount/)
 ## It supports images too!
 ##
+## > Some guy said some stuff
+##
+## ## Awesome Cat!
 ## ![cat](http://i.imgur.com/Sibekhc.jpg)
 
 import macros
