@@ -451,7 +451,7 @@ proc yamlize*[V](val: openarray[V]): YamlObj =
     result.seqVal.add(yamlize(val))
 
 
-proc `[]`*(self: YamlObj, key: SomeInteger): YamlObj =
+proc `[]`*(self: YamlObj, key: int): YamlObj =
   case self.kind
   of YamlObjKind.Seq:
     return self.seqVal[key]
@@ -468,7 +468,7 @@ proc `[]`*[T](self: YamlObj, key: T): YamlObj =
     raise newException(ValueError, eKeyInScalarSeq)
 
 
-proc `[]=`*[V](self: YamlObj, key: SomeInteger, val: V) =
+proc `[]=`*[V](self: YamlObj, key: int, val: V) =
   case self.kind
   of YamlObjKind.Seq:
     self.seqVal[key] = yamlize(val)
