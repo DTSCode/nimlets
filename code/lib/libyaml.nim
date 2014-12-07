@@ -525,7 +525,7 @@ proc yaml_document_append_mapping_pair*(document: ptr yaml_document_t;
                                         mapping: cint; key: cint; value: cint): cint
 proc yaml_parser_initialize*(parser: ptr yaml_parser_t): cint
 proc yaml_parser_delete*(parser: ptr yaml_parser_t)
-proc yaml_parser_set_input_string*(parser: ptr yaml_parser_t; input: ptr cuchar;
+proc yaml_parser_set_input_string*(parser: ptr yaml_parser_t; input: cstring;
                                    size: csize)
 proc yaml_parser_set_input_file*(parser: ptr yaml_parser_t; file: ptr FILE)
 proc yaml_parser_set_input*(parser: ptr yaml_parser_t;
@@ -559,4 +559,4 @@ proc yaml_emitter_dump*(emitter: ptr yaml_emitter_t;
 proc yaml_emitter_flush*(emitter: ptr yaml_emitter_t): cint
 {.pop.}
 
-{.link: "libyaml/libyaml.a".}
+{.link: "lib/libyaml/libyaml.a".}
