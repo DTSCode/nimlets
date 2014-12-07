@@ -1,10 +1,12 @@
 import lib.libyaml
 from tables import Table, initTable, `[]`, `[]=`, pairs, `==`
-from strutils import parseInt, parseFloat
+from strutils import parseInt, parseFloat, `%`
 from hashes import hash, THash, `!&`, `!$`
+from typetraits import name
+import unsigned
 
 type
-  YamlObjKind {.pure.} = enum
+  YamlObjKind* {.pure.} = enum
     Seq
     Map
     String
@@ -209,6 +211,9 @@ recognize[YAML_NO_EVENT] = proc(self: LoadContext, event: yaml_event_t): YamlObj
 
 proc load*(text: string): seq[YamlDoc] =
   ## Parses the sequence of YAML documents in `text`
+  ##
+  ## Note: while the YAML specification allows non-scalar
+  ## mapping keys, this does not.
   var parser: yaml_parser_t
   success yaml_parser_initialize(addr parser)
 
@@ -381,3 +386,142 @@ proc `$`*(input: seq[YamlDoc],
   yaml_emitter_delete(addr ctx.emitter)
 
   return ctx.result
+
+proc `$`*(val: YamlObj,
+          maxWidth: int = 80,
+          indent: int = 2): string =
+  let docSeq = @[val]
+  return `$`(docSeq, maxWidth = maxWidth, indent = indent)
+
+# Navigation {{{
+const  # errors
+  eKeyInScalar = "Cannot look up key in a scalar"
+  eKeyInScalarSeq = "Cannot look up key in scalar or sequence"
+  eScalarType = "Type $2 is incompatible with scalar type $1"
+  eCollectionNotScalar = "Cannot retrieve values from collections, only scalars"
+  eMalformedCollection = "Cannot create "
+
+
+proc yamlize*(val: YamlObj): YamlObj =
+  return val
+
+proc yamlize*(val: int): YamlObj =
+  return YamlObj(kind : YamlObjKind.Int, intVal : int(val))
+
+proc yamlize*(val: uint): YamlObj =
+  doAssert(val shr 63 != 1)  # prevent overflow
+  return YamlObj(kind : YamlObjKind.Int, intVal : int(val))
+
+proc yamlize*(val: string): YamlObj =
+  if val == nil:
+    return YamlObj(kind : YamlObjKind.Null)
+  else:
+    return YamlObj(kind : YamlObjKind.String, strVal : val)
+
+proc yamlize*(val: bool): YamlObj =
+  return YamlObj(kind : YamlObjKind.Bool, boolVal : val)
+
+proc yamlize*(val: float): YamlObj =
+  return YamlObj(kind : YamlObjKind.Float, floatVal : float64(val))
+
+proc yamlize*[T](val: T): YamlObj =
+  result = YamlObj(kind : YamlObjKind.Map, mapVal : initTable[YamlObj, YamlObj]())
+  for name, val in fieldPairs(val):
+    result[yamlize(name)] = yamlize(val)
+
+proc yamlize*[T](val: ref T): YamlObj =
+  if val == nil:
+    return YamlObj(kind : YamlObjKind.Null)
+  else:
+    return yamlize(val[])
+
+proc yamlize*[I, K, V](val: array[I, tuple[k: K, v: V]]): YamlObj =
+  ## Yamizes a map literal:
+  ##
+  ##     yamlize({ "foo" : "bar", "obj1" : "obj2})
+  result = YamlObj(kind : YamlObjKind.Map, mapVal : initTable())
+  for pair in val:
+    let (k, v) = pair
+    result.mapVal[yamlize(k)] = yamlize(v)
+
+proc yamlize*[V](val: openarray[V]): YamlObj =
+  result = YamlObj(kind : YamlObjKind.Seq, seqVal : @[])
+  for v in val:
+    result.seqVal.add(yamlize(val))
+
+
+proc `[]`*(self: YamlObj, key: SomeInteger): YamlObj =
+  case self.kind
+  of YamlObjKind.Seq:
+    return self.seqVal[key]
+  of YamlObjKind.Map:
+    return self.mapVal[yamlize(key)]
+  else:
+    raise newException(ValueError, eKeyInScalar)
+
+proc `[]`*[T](self: YamlObj, key: T): YamlObj =
+  case self.kind
+  of YamlObjKind.Map:
+    return self.mapVal[yamlize(key)]
+  else:
+    raise newException(ValueError, eKeyInScalarSeq)
+
+
+proc `[]=`*[V](self: YamlObj, key: SomeInteger, val: V) =
+  case self.kind
+  of YamlObjKind.Seq:
+    self.seqVal[key] = yamlize(val)
+  of YamlObjKind.Map:
+    self.mapVal[yamlize(key)] = yamlize(val)
+  else:
+    raise newException(ValueError, eKeyInScalar)
+
+proc `[]=`*[T, V](self: YamlObj, key: T, val: V) =
+  case self.kind
+  of YamlObjKind.Map:
+    self.mapVal[yamlize(key)] = yamlize(val)
+  else:
+    raise newException(ValueError, eKeyInScalarSeq)
+
+
+proc `.`*(self: YamlObj, key: string): YamlObj =
+  return self[key]
+
+proc `.=`*[T](self: YamlObj, key: string, val: T): YamlObj =
+  self[key] = val
+
+
+proc get*(self: YamlObj, T: typedesc): T =
+  if self.kind == YamlObjKind.Int:
+    when not compiles(int(result)):
+      raise newException(ValueError, eScalarType % [$self.kind, name T])
+    else:
+      return self.intVal
+
+  if self.kind == YamlObjKind.Float:
+    when not compiles(float(result)):
+      raise newException(ValueError, eScalarType % [$self.kind, name T])
+    else:
+      return self.floatVal
+
+  if self.kind == YamlObjKind.Bool:
+    when not compiles(bool(result)):
+      raise newException(ValueError, eScalarType % [$self.kind, name T])
+    else:
+      return self.boolVal
+
+  if self.kind == YamlObjKind.String:
+    when not compiles(string(result)):
+      raise newException(ValueError, eScalarType % [$self.kind, name T])
+    else:
+      return self.strVal
+
+  if self.kind == YamlObjKind.Null:
+    when not compiles(result[]):
+      raise newException(ValueError, eScalarType % [$self.kind, name T])
+    else:
+      return nil
+
+  raise newException(ValueError, eCollectionNotScalar)
+
+# }}}
