@@ -81,14 +81,8 @@ template success(test: expr): stmt =
 
 # `load()` Internals {{{
 type
-  YamlParser = yaml_parser_t
-
-proc initYamlParser(): YamlParser =
-  success yaml_parser_initialize(addr result)
-
-type
   LoadContext = ref object
-    parser: YamlParser
+    parser: yaml_parser_t
     anchors: Table[string, YamlObj]
     gen: iterator(): yaml_event_t {.closure.}
 
@@ -215,8 +209,12 @@ recognize[YAML_NO_EVENT] = proc(self: LoadContext, event: yaml_event_t): YamlObj
 
 proc load*(text: string): seq[YamlDoc] =
   ## Parses the sequence of YAML documents in `text`
-  var loadCtx = LoadContext(parser  : initYamlParser(),
+  var parser: yaml_parser_t
+  success yaml_parser_initialize(addr parser)
+
+  var loadCtx = LoadContext(parser  : parser,
                             anchors : initTable[string, YamlObj]() )
+
   yaml_parser_set_input_string(addr loadCtx.parser, text, csize(text.len))
   yaml_parser_set_encoding(addr loadCtx.parser, YAML_UTF8_ENCODING)
   loadCtx.gen = loadCtx.events()
