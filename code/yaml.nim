@@ -399,7 +399,8 @@ const  # errors
   eKeyInScalarSeq = "Cannot look up key in scalar or sequence"
   eScalarType = "Type $2 is incompatible with scalar type $1"
   eCollectionNotScalar = "Cannot retrieve values from collections, only scalars"
-  eMalformedCollection = "Cannot create "
+  eMalformedCollection = "Cannot create $1, field mismatch"
+  eNotIterable = "Cannot iterate over $1"
 
 
 proc yamlize*(val: YamlObj): YamlObj =
@@ -483,6 +484,30 @@ proc `[]=`*[T, V](self: YamlObj, key: T, val: V) =
   else:
     raise newException(ValueError, eKeyInScalarSeq)
 
+
+iterator items*(self: YamlObj): YamlObj =
+  case self.kind
+  of YamlObjKind.Seq:
+    for v in self.seqVal:
+      yield v
+  else:
+    raise newException(ValueError, eNotIterable % [$self.kind])
+
+iterator pairs*(self: YamlObj): tuple[idx: int, val: YamlObj] =
+  case self.kind
+  of YamlObjKind.Seq:
+    for i, v in self.seqVal:
+      yield (i, v)
+  else:
+    raise newException(ValueError, eNotIterable % [$self.kind])
+
+iterator pairs*(self: YamlObj): tuple[key, val: YamlObj] =
+  case self.kind
+  of YamlObjKind.Map:
+    for k, v in self.mapVal:
+      yield (k, v)
+  else:
+    raise newException(ValueError, eNotIterable % [$self.kind])
 
 proc `.`*(self: YamlObj, key: string): YamlObj =
   return self[key]
