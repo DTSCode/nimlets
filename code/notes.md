@@ -50,11 +50,9 @@ discount_docs]: https://h3rald.com/hastyscribe/HastyScribe_UserGuide.htm
   - Not yet implemented
   - General idea is
     - index from description, name, code
-      - Frequency weighing - low frequency terms should be weighed higher;
-        highest frequency terms should be eliminated as they are useless
-      - Field should further determine weight: name > description > code
-        - Perhaps some debate for weights here?
-    - create a json {token : {snippet_name : weight}}
+      - weight = num in doc / num total
+      - Lowest weights are useless and eliminated
+    - create a json {token : {snippet_name : relevence}}
     - client side
       - Tokenize query
       - Select snippet_name, sum(weight) Where token In tokenize(query)
