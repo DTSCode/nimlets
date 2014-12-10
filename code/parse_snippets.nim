@@ -44,6 +44,7 @@ type
     tags*: seq[string]
     description*: string
     code*: string
+    rawSnippet*: ref Snippet
 
 proc parseMetadata(header: string): Snippet =
   let parsedHeader = yaml.load(header)[0]
@@ -62,7 +63,7 @@ proc parseSnippet*(text: string): Snippet =
   let (description, code) = splitHeader(rest)
 
   result = parseMetadata(metadata)
+  result.rawSnippet = (ref Snippet)( code : code, description : description )
+
   result.code = renderCode(code, "nimrod")
   result.description = markdown.render(description)
-
-echo(parseSnippet(readFile("../snippets/test.nim")))
