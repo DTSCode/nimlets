@@ -23,7 +23,7 @@ peru_web]: https://github.com/buildinspace/peru
   - Not really receptive to switching to a Nim library for this until a
     comparable number of other languages are implemented
   - IPC code is in `code/pygments.nim`
-    - Not too confident in this code, but it seems to work
+    - Seems to work, sometimes messes up on cleanup
   - Future directions:
     - Daemonize the process, but these are static pages so it doesn't really
       matter.

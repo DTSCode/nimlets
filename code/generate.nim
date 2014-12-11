@@ -28,6 +28,7 @@ proc processSnippetBase(filename: string) =
   snippetChannel.send(snippet)
   let renderedSnippet = renderSnippetPage(snippet)
   let targetFilename = targetDir / splitFile(filename).name.addFileExt("html")
+  echo renderedSnippet
   targetFilename.writeFile(renderedSnippet)
 
 let processSnippet = cast[proc (f: string) {.gcsafe.}](processSnippetBase)
@@ -46,7 +47,8 @@ sync()
 var snippets: seq[Snippet] = @[]
 
 # single consumer, no races
-while snippetChannel.peek == -1:
+while snippetChannel.peek != 0:
+  echo snippetChannel.peek()
   snippets.add(snippetChannel.recv())
 
 (targetDir / "search_index.json").writeFile(analyzeAndRender(snippets))
