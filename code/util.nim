@@ -8,7 +8,7 @@ proc escapeHtml*(str: string): string =
   for c in str:
     case c
     of {'<', '>', '"', '\'', '`', '&'}:
-      result.add("&#" & toHex(int(c), 2) & ";")
+      result.add("&#" & $int(c) & ";")
     else:
       result.add(c)
 
