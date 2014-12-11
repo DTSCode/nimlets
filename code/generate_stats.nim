@@ -21,10 +21,16 @@ type
     snippet: Snippet
     wordFreqs: array[WordType, CountTable[string]]
 
+proc getStopwords(): TSet[string] =
+  let text = slurp("./stop_words")
+  result = toSet(text.split('\l'))
+
+let stopWords = getStopwords()
+
 iterator tokenize(input: string): string =
   for word in input.split({' ', '.', '\l', '\r', '\t'}):
-    yield word
-
+    if word notin stopWords:
+      yield word
 
 proc wordFreq(input: string): CountTable[string] =
   result = initCountTable[string]()
@@ -49,6 +55,7 @@ proc getSnippetRelevence(globalStats: CountTable[string],
   for word, count in body.wordFreqs[WordType.Code].merge(
                      body.wordFreqs[WordType.Description]):
     result[word] = globalStats.getRelevence(word, count)
+
 
 proc analyze(data: seq[SnippetStats]): Table[string, Table[string, float]] =
   # Returns { token : { snippet_name : relevence } }
