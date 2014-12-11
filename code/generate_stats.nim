@@ -3,9 +3,10 @@ import parse_snippets
 import sets
 import strutils
 import math
+import templates.search_index
 
 type
-  WordType* {.pure.} = enum
+  WordType {.pure.} = enum
     Title, Author, Code, Description
 
 proc merge[T](a, b: CountTable[T]): CountTable[T] =
@@ -16,7 +17,7 @@ proc merge[T](a, b: CountTable[T]): CountTable[T] =
     result.inc(v, i)
 
 type
-  SnippetStats* = object
+  SnippetStats = object
     snippet: Snippet
     wordFreqs: array[WordType, CountTable[string]]
 
@@ -30,7 +31,7 @@ proc wordFreq(input: string): CountTable[string] =
   for word in tokenize(input):
     result.inc(normalize(word))
 
-proc generateFrequencies*(self: Snippet): SnippetStats =
+proc generateFrequencies(self: Snippet): SnippetStats =
   result.snippet = self
   result.wordFreqs[WordType.Title]       = wordFreq(self.title)
   result.wordFreqs[WordType.Author]      = wordFreq(self.author)
@@ -68,3 +69,11 @@ proc analyze(data: seq[SnippetStats]): Table[string, Table[string, float]] =
         result[term] = initTable[string, float]()
 
       result.mget(term)[name] = relevence
+
+proc analyzeAndRender*(data: seq[Snippet]): string =
+  # returns { (token : { (snippet_name : relevence)* })* } in json format
+  var snippetData: seq[SnippetStats] = @[]
+  for snip in data:
+    snippetData.add(generateFrequencies(snip))
+
+  return renderSearchIndex(analyze(snippetData))

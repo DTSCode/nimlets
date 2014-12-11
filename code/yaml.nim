@@ -121,7 +121,7 @@ proc events(self: LoadContext): iterator(): yaml_event_t =
 
       yaml_event_delete(addr event)
 
-var recognize: array[yaml_event_type_t, proc(self: LoadContext, event: yaml_event_t): YamlObj]
+var recognize: array[yaml_event_type_t, proc(self: LoadContext, event: yaml_event_t): YamlObj {.nimcall.}]
 
 recognize[YAML_DOCUMENT_START_EVENT] = proc(self: LoadContext, event: yaml_event_t): YamlObj =
   let next = self.gen()
@@ -246,7 +246,7 @@ proc emit(ctx: StringifyContext, event: ptr yaml_event_t) =
     raise newException(Exception, "Failed to emit event: " &
                        $ctx.emitter.problem)
 
-var renderers: array[YamlObjKind, proc(self: YamlObj, ctx: StringifyContext)]
+var renderers: array[YamlObjKind, proc(self: YamlObj, ctx: StringifyContext) {.nimcall.}]
 
 renderers[YamlObjKind.Seq] = proc(self: YamlObj, ctx: StringifyContext) =
   var event = create(yaml_event_t)
