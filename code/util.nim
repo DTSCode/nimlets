@@ -1,4 +1,5 @@
 from strutils import toHex
+
 proc escapedStringLen(origLen: int): int =
   # 1.1x original size
   return origLen + origLen div 10
@@ -26,3 +27,17 @@ proc escapeUrlComponent*(str: string): string =
       result.add(c)
     else:
       result.add("%" & toHex(int(c), 2))
+
+proc mkstemp(templ: cstring): cint {.cdecl, header: "stdio.h", importc.}
+
+proc mkTemp*(templ: string = "/tmp/pygments_comm_"): tuple[fd: File, name: string] =
+  var filePath: cstring = templ & "XXXXXX"
+  let fh = mkstemp(filePath)
+  if fh == -1:
+    raise newException(Exception, "Failed create temporary file")
+
+  if not open(result.fd, fh, fmReadWrite):
+    raise newException(Exception, "Failed top open FileHandle as a file")
+
+  result.name = $filePath
+
