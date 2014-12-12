@@ -1,12 +1,13 @@
+/code/*
+!/code/*.*
+!/code/*/
+
 .peru
 
-/stylesheets/gridism.css
+/code/stylesheets/gridism.css
 
 /code/lib/python
 /code/lib/discount
 /code/lib/libyaml
 
 nimcache
-
-/code/*
-!/code/*.*
