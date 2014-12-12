@@ -1,4 +1,5 @@
 ## title: A macro to do addition on testing123s
+## id: add-123s
 ## author: Foo Bar <foo.bar@acme.com>
 ## tags:
 ##     - addition

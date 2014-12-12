@@ -39,6 +39,8 @@ proc splitHeader(text: string): tuple[header, rest: string] =
 
 type
   Snippet* = object
+    numId*: int
+    id*: string
     title*: string
     author*: string
     tags*: seq[string]
@@ -49,6 +51,7 @@ type
 proc parseMetadata(header: string): Snippet =
   let parsedHeader = yaml.load(header)[0]
 
+  result.id = parsedHeader.id.get(string)
   result.title = parsedHeader.title.get(string)
   result.author = parsedHeader.author.get(string)
   result.tags = @[]
@@ -56,9 +59,11 @@ proc parseMetadata(header: string): Snippet =
   for tag in parsedHeader.tags:
     result.tags.add(tag.get(string))
 
-proc parseSnippet*(text: string): Snippet =
+proc parseSnippet*(text: string, numId: int): Snippet =
   # Parses the snippet, but it blocks. Make sure to
   # run multiple in seperate threads
+  result.numId = numId
+
   let (metadata, rest) = splitHeader(text)
   let (description, code) = splitHeader(rest)
 
