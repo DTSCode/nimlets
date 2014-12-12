@@ -1,7 +1,7 @@
 from strutils import `%`
 import util
 from parse_snippets import Snippet
-import base
+import templates.base
 
 proc renderTags(tags: seq[string]): string =
   result = ""

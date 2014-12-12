@@ -3,7 +3,7 @@ from strutils import endsWith, `%`
 import parse_snippets
 import threadPool
 import generate_stats
-
+import templates.index
 
 let args = commandLineParams()
 
@@ -52,3 +52,4 @@ while snippetChannel.peek != 0:
   snippets.add(snippetChannel.recv())
 
 (targetDir / "search_index.json").writeFile(analyzeAndRender(snippets))
+(targetDir / "index.html").writeFile(renderIndex())
