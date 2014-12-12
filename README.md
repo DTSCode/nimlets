@@ -7,10 +7,10 @@ http://nimlets.github.io is a site dedicated to demonstrating standalone snippet
 Building
 ========
 
-To build the output artifacts simply run "./build" in the root directory. This will install a virtualenv and a number of packages, build some Nim helpers and result in a directory called "output".
+To build the output artifacts simply run "./build" in the root directory. This will install a virtualenv and a number of packages, build some Nim helpers and compile "./snippets/*" to html in a directory called "output".
 
 
 Testing
 =======
 
-To test locally, simply cd into the output directory and run `python -m SimpleHTTPServer`
+To test locally, simply cd into the output directory and run a web server. `python2 -m SimpleHTTPServer` is a good choince since it's simple and probably available.
