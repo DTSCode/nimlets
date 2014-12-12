@@ -6,10 +6,9 @@ from util import mkTemp
 proc renderCode*(code, language: string,
                  lineNums: bool = false, lineNumBase: string = "code"): string =
   let codeFile = mkTemp()
-  codeFile.fd.close()
+  finally: codeFile.fd.close()
   codeFile.name.writeFile(code)
-  finally:
-    removeFile(codeFile.name)
+  finally: removeFile(codeFile.name)
 
   var args = @[
     "-l", language,

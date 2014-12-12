@@ -8,7 +8,9 @@ proc renderRelevences(data: Table[string, float], digits: int = 4): string =
   for snippetid, relevence in data:
     result.add("$1{\"doc\":$2,\"rel\":$3}" % [delimiter,
                                              escapeJson(snippetId),
-                                             formatFloat(relevence, precision = digits)])
+                                             formatFloat(relevence,
+                                               precision = digits,
+                                               format = ffScientific)])
     delimiter = ","
 
   result.add("]")

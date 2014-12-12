@@ -1,5 +1,5 @@
 import os
-from strutils import endsWith
+from strutils import endsWith, `%`
 import parse_snippets
 import threadPool
 import generate_stats
@@ -24,6 +24,8 @@ open(snippetChannel)
 
 import templates.snippet
 proc processSnippetBase(filename: string) =
+  echo("rendering $1" % [filename])
+
   let snippet = parseSnippet(readFile(filename))
   snippetChannel.send(snippet)
   let renderedSnippet = renderSnippetPage(snippet)
