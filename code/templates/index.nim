@@ -16,14 +16,14 @@ proc renderIndex*(): string =
   </div>
 
   <div class="grid">
-    <form class="unit whole">
+    <form class="unit whole" onsubmit="return false;">
       <input name="q"
              type="search"
              autofocus
              autocomplete="off"
              placeholder="Search"
              class="search">
-      <input type="submit" value="Search" style="display: none;">
+      <input type="button" onClick="performSearch()" style="display: none;">
     </form>
   </div>
 
