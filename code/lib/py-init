@@ -5,7 +5,7 @@ BASEDIR=$(dirname $0)
 mkdir "$BASEDIR/python"
 
 virtualenv --python=python3 "$BASEDIR/python/"
-source "$BASEDIR/python/bin/activate"
+. "$BASEDIR/python/bin/activate"
 
 requirements=$(mktemp)
 trap "rm $requirements" EXIT
