@@ -15,11 +15,6 @@ h1 {
   border-bottom: 5px solid black;
 }
 
-.snippet-tags {
-  text-align: right;
-  text-overflow: clip;
-}
-
 a.snippet-tag {
   transition:.3s;
   
@@ -35,7 +30,7 @@ a.snippet-tag {
   border-width: 1px;
   border-color: #000;
 
-  box-shadow: inset 0px 0px 2px 0px #000;
+  box-shadow: inset 0px 0px 1px 0px #000;
 }
 
 a.snippet-tag:hover {
