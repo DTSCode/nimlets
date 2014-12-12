@@ -5,7 +5,7 @@ BASEDIR=$(dirname $0)
 cd $BASEDIR
 
 code/lib/py-init
-source code/lib/python/bin/activate
+. code/lib/python/bin/activate
 
 peru sync
 
