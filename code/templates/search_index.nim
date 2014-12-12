@@ -6,9 +6,9 @@ proc renderNameIds(numIdToName: Table[int, string]): string =
   result = "{"
   var delimiter = ""
   for numId, id in numIdToName:
-    result.add("$1$2:$3" % [delimiter,
-                            $numId,
-                            escape(id)])
+    result.add("$1\"$2\":$3" % [delimiter,
+                                $numId,
+                                escape(id)])
     delimiter = ","
 
   result.add("}")
@@ -17,9 +17,9 @@ proc renderRelevences(data: Table[int, float], digits: int = 4): string =
   result = "{"
   var delimiter = ""
   for snippetid, relevence in data:
-    result.add("$1$2:$3" % [delimiter,
-                            $snippetId,
-                            formatFloat(relevence, precision = digits)])
+    result.add("$1\"$2\":$3" % [delimiter,
+                                $snippetId,
+                                formatFloat(relevence, precision = digits)])
     delimiter = ","
 
   result.add("}")
