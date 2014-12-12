@@ -2,7 +2,10 @@ import util
 from strutils import `%`
 
 let scripts: seq[string] = @[]
-let stylesheets: seq[string] = @[]
+let stylesheets: seq[string] = @[
+  "//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css",
+  "/stylesheets/gridism.css",
+]
 
 proc renderStylesheets(stylesheetPaths: seq[string]): string =
   result = ""

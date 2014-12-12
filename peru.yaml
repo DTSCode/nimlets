@@ -1,7 +1,9 @@
 imports:
-  gridism: stylesheets/
+  gridism: code/stylesheets/
   discount: code/lib/discount/
   libyaml: code/lib/libyaml/
+  web-worker-rpc: code/javascripts/
+  nimble-js: code/javascripts/
 
 git module gridism:
   url: https://github.com/cobyism/gridism.git
@@ -32,3 +34,11 @@ curl module libyaml:
   files:
     - libyaml.a
     - yaml.h
+
+curl module web-worker-rpc:
+  url: https://raw.github.com/omphalos/web-worker-proxies/master/web-worker-proxies.min.js
+  files: web-worker-proxies.min.js
+
+curl module nimble-js:
+  url: https://github.com/caolan/nimble/raw/master/nimble.min.js
+  files: nimble.min.js

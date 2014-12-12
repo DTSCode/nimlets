@@ -6,8 +6,11 @@
 
 /code/stylesheets/gridism.css
 
+/code/javascripts/*.min.js
+
 /code/lib/python
 /code/lib/discount
 /code/lib/libyaml
+/code/lib/libsass/
 
 nimcache
