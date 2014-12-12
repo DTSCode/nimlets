@@ -8,3 +8,5 @@ code/lib/py-init
 source code/lib/python/bin/activate
 
 peru sync
+
+nim c -r code/generate.nim ./snippets/ ./output/

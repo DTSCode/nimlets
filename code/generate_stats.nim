@@ -21,9 +21,10 @@ type
     snippet: Snippet
     wordFreqs: array[WordType, CountTable[string]]
 
+const stopWordText = slurp("./stop_words")
+
 proc getStopwords(): TSet[string] =
-  let text = "./stop_words".readFile()
-  result = toSet(text.split('\l'))
+  result = toSet(stopWordText.split('\l'))
 
 let stopWords = getStopwords()
 
