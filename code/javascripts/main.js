@@ -1,6 +1,6 @@
 $.get("http://localhost:8888/search_index.json").success(function(data){
   console.log("got search index");
-  window.searchIndex = JSON.parse(data);
+  window.searchIndex = data;
 }).fail(function(failcode){
   console.log("failed to get index: ");
   console.log(failcode);
