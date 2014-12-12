@@ -1,8 +1,14 @@
-from strutils import toHex
+from strutils import toHex, replace
 
 proc escapedStringLen(origLen: int): int =
   # 1.1x original size
   return origLen + origLen div 10
+
+proc escapeJson*(str: string): string =
+  result = str
+  result = result.replace("\\", "\\\\")
+  result = result.replace("\"", "\\\"")
+  result = "\"" & result & "\""
 
 proc escapeHtml*(str: string): string =
   result = newStringOfCap(escapedStringLen(str.len))

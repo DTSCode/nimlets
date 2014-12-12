@@ -23,24 +23,22 @@ var snippetChannel: TChannel[Snippet]
 open(snippetChannel)
 
 import templates.snippet
-proc processSnippetBase(filename: string, numId: int) =
-  let snippet = parseSnippet(readFile(filename), numId)
+proc processSnippetBase(filename: string) =
+  let snippet = parseSnippet(readFile(filename))
   snippetChannel.send(snippet)
   let renderedSnippet = renderSnippetPage(snippet)
   let targetFilename = targetDir / snippet.id & ".html"
   targetFilename.writeFile(renderedSnippet)
 
-let processSnippet = cast[proc (f: string, i: int) {.gcsafe.}](processSnippetBase)
+let processSnippet = cast[proc (f: string) {.gcsafe.}](processSnippetBase)
 
 
 for file in walkDirRec(snippetDir, filter = {pcFile,
                                              pcLinkToFile,
                                              pcDir,
                                              pcLinkToDir}):
-  var numId = 0
   if file.endsWith(".nim"):
-    inc numId
-    spawn processSnippet(file, numId)
+    spawn processSnippet(file)
 
 
 sync()

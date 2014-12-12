@@ -2,42 +2,25 @@ import util
 import tables
 import strutils
 
-proc renderNameIds(numIdToName: Table[int, string]): string = 
-  result = "{"
-  var delimiter = ""
-  for numId, id in numIdToName:
-    result.add("$1\"$2\":$3" % [delimiter,
-                                $numId,
-                                escape(id)])
-    delimiter = ","
-
-  result.add("}")
-
-proc renderRelevences(data: Table[int, float], digits: int = 4): string =
-  result = "{"
+proc renderRelevences(data: Table[string, float], digits: int = 4): string =
+  result = "["
   var delimiter = ""
   for snippetid, relevence in data:
-    result.add("$1\"$2\":$3" % [delimiter,
-                                $snippetId,
-                                formatFloat(relevence, precision = digits)])
+    result.add("$1{\"doc\":$2,\"rel\":$3}" % [delimiter,
+                                             escapeJson(snippetId),
+                                             formatFloat(relevence, precision = digits)])
     delimiter = ","
 
-  result.add("}")
+  result.add("]")
 
-proc renderIndex(data: Table[string, Table[int, float]]): string =
+proc renderIndex*(data: Table[string, Table[string, float]]): string =
   result = "{"
   var delimiter = ""
 
   for word, value in data:
     result.add("$1$2:$3" % [delimiter,
-                            escape(word),
+                            escapeJson(word),
                             renderRelevences(value)])
     delimiter = ",\l"
 
   result.add("}")
-
-
-proc renderSearchIndex*(data: Table[string, Table[int, float]],
-                        numIdToId: Table[int, string]): string =
-  result = "{\"numToId\":$1,\"index\":$2}" % [renderNameIds(numIdToId),
-                                              renderIndex(data)]

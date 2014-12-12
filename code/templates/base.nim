@@ -1,12 +1,18 @@
 import util
 from strutils import `%`
 
-let scripts: seq[string] = @[]
+let scripts: seq[string] = @[
+  "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js",
+  "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
+
+  "/javascripts/main.js",
+]
 let stylesheets: seq[string] = @[
   "//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css",
   "/stylesheets/gridism.css",
-  "/stylesheets/base.css",
   "/stylesheets/syntax-highlight.css",
+
+  "/stylesheets/base.css",
 ]
 
 proc renderStylesheets(stylesheetPaths: seq[string]): string =

@@ -28,7 +28,9 @@ proc getStopwords(): TSet[string] =
 let stopWords = getStopwords()
 
 iterator tokenize(input: string): string =
-  for word in input.split({' ', '.', '\l', '\r', '\t'}):
+  for word in input.split({' ', '.', '\l', '\r', '\t',
+                           '(', ')', '{', '}', '[', ']',
+                           ':', ';', '!', '?'}):
     if word notin stopWords:
       yield word
 
@@ -57,10 +59,10 @@ proc getSnippetRelevence(globalStats: CountTable[string],
     result[word] = globalStats.getRelevence(word, count)
 
 
-proc analyze(data: seq[SnippetStats]): Table[string, Table[int, float]] =
+proc analyze(data: seq[SnippetStats]): Table[string, Table[string, float]] =
   # Returns { token : { snippet_id : relevence } }
 
-  result = initTable[string, Table[int, float]]()
+  result = initTable[string, Table[string, float]]()
 
   var totalFreq = initCountTable[string]()
   for snippet in data:
@@ -71,9 +73,9 @@ proc analyze(data: seq[SnippetStats]): Table[string, Table[int, float]] =
   for snippet in data:
     for term, relevence in totalFreq.getSnippetRelevence(snippet):
       if not result.hasKey(term):
-        result[term] = initTable[int, float]()
+        result[term] = initTable[string, float]()
 
-      result.mget(term)[snippet.snippet.numId] = relevence
+      result.mget(term)[snippet.snippet.id] = relevence
 
 proc analyzeAndRender*(data: seq[Snippet]): string =
   # returns { (token : { (snippet_name : relevence)* })* } in json format
@@ -82,8 +84,4 @@ proc analyzeAndRender*(data: seq[Snippet]): string =
   for snip in data:
     snippetData.add(generateFrequencies(snip))
 
-  var numToId = initTable[int, string]()
-  for snip in data:
-    numToId[snip.numId] = snip.id
-
-  return renderSearchIndex(analyze(snippetData), numToId)
+  return renderIndex(analyze(snippetData))
