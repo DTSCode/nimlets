@@ -1,0 +1,51 @@
+html {
+  background-color: #999;
+}
+
+body {
+  max-width: 60em;
+  margin-right: auto;
+  margin-left: auto;
+  background-color: #AAA;
+
+  box-shadow: inset 0px 0px 5px 0px #555;
+}
+
+h1 {
+  border-bottom: 5px solid black;
+}
+
+.snippet-tags {
+  text-align: right;
+  text-overflow: clip;
+}
+
+a.snippet-tag {
+  transition:.3s;
+  
+  background-color: #555;
+  display: inline-block;
+  padding: 5px;
+  margin: 0px 2px 2px;
+  text-decoration: none;
+  color: #CCC;
+
+  border-style: solid;
+  border-radius: 2px;
+  border-width: 1px;
+  border-color: #000;
+
+  box-shadow: inset 0px 0px 2px 0px #000;
+}
+
+a.snippet-tag:hover {
+  background-color: #999;
+}
+
+.snippet-description, .snippet-code {
+  background-color: #BBB;
+  
+  box-shadow: inset 0px 0px 5px 0px #555;
+  
+  margin-bottom: 1em;
+}

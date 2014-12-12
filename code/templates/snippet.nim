@@ -14,19 +14,21 @@ proc renderTags(tags: seq[string]): string =
 
 proc renderSnippet(snippet: Snippet): string =
   return """
-  <div class=grid>
-    <h1 class="unit whole snippet-name">$#</h1>
-  </div>
-  <div class=grid>
-    <div class="unit one-third snippet-author">$#</div>
-    <div class="unit two-thirds snippet-tags">
-    $#
+  <div class="snippet-header">
+    <div class="grid">
+      <h1 class="unit whole snippet-name">$#</h1>
+    </div>
+    <div class="grid">
+      <div class="unit half snippet-author">$#</div>
+      <div class="unit half snippet-tags">
+      $#
+      </div>
     </div>
   </div>
-  <div class=grid>
+  <div class="grid">
     <div class="unit whole snippet-description">$#</div>
   </div>
-  <div class=grid>
+  <div class="grid">
     <div class="unit whole snippet-code">$#</div>
   </div>
   """ % [
