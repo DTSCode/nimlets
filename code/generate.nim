@@ -4,6 +4,7 @@ import parse_snippets
 import threadPool
 import generate_stats
 import templates.index
+import tables
 
 let args = commandLineParams()
 
@@ -51,5 +52,12 @@ var snippets: seq[Snippet] = @[]
 while snippetChannel.peek != 0:
   snippets.add(snippetChannel.recv())
 
-(targetDir / "search_index.json").writeFile(analyzeAndRender(snippets))
-(targetDir / "index.html").writeFile(renderIndex())
+let indexData = analyze(snippets)
+var idToName = initTable[string, string]()
+for snip in snippets:
+  idToName[snip.id] = snip.title
+
+import templates.search_index
+
+(targetDir / "search_index.json").writeFile(renderIndex(indexData, idToName))
+(targetDir / "index.html").writeFile(renderHome())

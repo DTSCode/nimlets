@@ -2,7 +2,7 @@ import templates.base
 import util
 from strutils import `%`
 
-proc renderIndex*(): string =
+proc renderHome*(): string =
   renderBase(title = "Nimlets - Nim Code Examples", inner = """
   <div class="grid">
     <h1 class="header unit whole">
@@ -16,15 +16,14 @@ proc renderIndex*(): string =
   </div>
 
   <div class="grid">
-    <form class="unit whole" onsubmit="return false;">
-      <input name="q"
+    <div class="unit whole" id="search-area">
+      <input id="search-query"
              type="search"
              autofocus
              autocomplete="off"
              placeholder="Search"
              class="search">
-      <input type="button" onClick="performSearch()" style="display: none;">
-    </form>
+    </div>
   </div>
 
   <div class="search-results" style="display: none;">
@@ -33,5 +32,7 @@ proc renderIndex*(): string =
     </div>
     <div class="search-results-body"></div>
   </div>
+
+  <script>window.searchPage = true;</script>
   """)
 

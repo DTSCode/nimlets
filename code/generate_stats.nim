@@ -60,7 +60,7 @@ proc getSnippetRelevence(globalStats: CountTable[string],
     result[word] = globalStats.getRelevence(word, count)
 
 
-proc analyze(data: seq[SnippetStats]): Table[string, Table[string, float]] =
+proc analyzeBase(data: seq[SnippetStats]): Table[string, Table[string, float]] =
   # Returns { token : { snippet_id : relevence } }
 
   result = initTable[string, Table[string, float]]()
@@ -78,11 +78,11 @@ proc analyze(data: seq[SnippetStats]): Table[string, Table[string, float]] =
 
       result.mget(term)[snippet.snippet.id] = relevence
 
-proc analyzeAndRender*(data: seq[Snippet]): string =
-  # returns { (token : { (snippet_name : relevence)* })* } in json format
+proc analyze*(data: seq[Snippet]): Table[string, Table[string, float]] =
+  # returns { (token : { (snippet_name : relevence)* })* }
   var snippetData: seq[SnippetStats] = @[]
 
   for snip in data:
     snippetData.add(generateFrequencies(snip))
 
-  return renderIndex(analyze(snippetData))
+  return analyzeBase(snippetData)

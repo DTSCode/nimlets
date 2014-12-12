@@ -15,7 +15,20 @@ proc renderRelevences(data: Table[string, float], digits: int = 4): string =
 
   result.add("]")
 
-proc renderIndex*(data: Table[string, Table[string, float]]): string =
+proc renderIdToName(idToName: Table[string, string]): string =
+  result = "{"
+  var delimiter = ""
+
+  for id, name in idToName:
+    result.add("$1$2:$3" % [delimiter,
+                            escapeJson(id),
+                            escapeJson(name)])
+    delimiter = ","
+
+  result.add("}")
+
+
+proc renderSearchIndex(data: Table[string, Table[string, float]]): string =
   result = "{"
   var delimiter = ""
 
@@ -26,3 +39,8 @@ proc renderIndex*(data: Table[string, Table[string, float]]): string =
     delimiter = ",\l"
 
   result.add("}")
+
+proc renderIndex*(data: Table[string, Table[string, float]],
+                  idToName: Table[string, string]): string =
+  return "{\"index\":$1,\"idToName\":$2}" % [renderSearchIndex(data),
+                                             renderIdToName(idToName)]
