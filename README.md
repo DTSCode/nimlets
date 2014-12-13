@@ -1,3 +1,4 @@
+[![Circle CI](https://circleci.com/gh/nimlets/nimlets.svg?style=svg)](https://circleci.com/gh/nimlets/nimlets)
 Nimlets
 ===
 <http://nimlets.github.io> is a site dedicated to demonstrating standalone
