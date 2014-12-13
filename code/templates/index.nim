@@ -4,20 +4,17 @@ from strutils import `%`
 
 proc renderHome*(): string =
   renderBase(title = "Nimlets - Nim Code Examples", inner = """
-  <div class="grid">
-    <h1 class="header unit whole">
-      Nimlets
-    </h1>
-  </div>
-  <div class="grid">
-    <h2 class="subtitle unit whole">
-      Nim code examples
-    </h2>
-  </div>
+  <h1 class="title">
+    Nimlets
+  </h1>
+  <h2 class="subtitle">
+    Nim code snippets
+  </h2>
 
   <div class="grid">
-    <div class="unit whole" id="search-area">
+    <div class="unit whole search-area">
       <input id="search-query"
+             class="search-textbox"
              type="search"
              autofocus
              autocomplete="off"
@@ -26,10 +23,7 @@ proc renderHome*(): string =
     </div>
   </div>
 
-  <div class="search-results" style="display: none;">
-    <div class="grid">
-      <h2 class="unit whole search-results-title">Search Results</h2>
-    </div>
+  <div class="subsection search-results">
     <div class="search-results-body"></div>
   </div>
 

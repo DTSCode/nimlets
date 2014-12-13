@@ -11,8 +11,22 @@ body {
   box-shadow: inset 0px 0px 5px 0px #555;
 }
 
-h1 {
+h1.snippet-name {
   border-bottom: 5px solid black;
+}
+
+h1.title {
+  margin: 0px;
+  text-align: center;
+  
+  padding-top: 40px;
+  
+  font-size: 600%
+}
+
+h2.subtitle {
+  text-align: center;
+  font-weight: normal;
 }
 
 a.snippet-tag {
@@ -43,4 +57,49 @@ a.snippet-tag:hover {
   box-shadow: inset 0px 0px 5px 0px #555;
 
   margin-bottom: 1em;
+}
+
+.search-results {
+  transition: ease height 1s;
+  height: 0px;
+  overflow: hidden;
+}
+
+.search-result {
+  box-shadow: inset 0px 0px 5px 0px #555;
+  background-color: #CCC;
+  padding: 15px 15px 0px;
+}
+
+.search-result a.result-title {
+  font-size: 120%;
+  text-decoration: none;  
+}
+
+.search-result a.result-title:hover {
+  text-decoration: underline;
+}
+
+.search-result .result-desc {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.search-area input {
+  background-color: #EEE;
+}
+
+.search-textbox {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  
+  width: 40%;
+  
+  font-size: 120%;
+  border-style: none;
+  border-radius: 5px;
+  
+  padding: 5px;
 }

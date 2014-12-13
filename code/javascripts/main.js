@@ -1,5 +1,12 @@
 "use strict"
 
+
+$.fn.redraw = function(){
+  return $(this).each(function(){
+    var redraw = this.offsetHeight;
+  });
+};
+
 function initSearch() {
   var submitEvent = function(event) {
     var key = event.which;
@@ -8,7 +15,7 @@ function initSearch() {
       performSearch();
     }
   }
-  $("div #search-area").keypress(submitEvent)
+  $(".search-area").keypress(submitEvent)
 
   if (window['searchData'] == undefined)
     $.get("http://localhost:8888/document_index.json").success(function(data){
@@ -47,17 +54,19 @@ function processQuery(query) {
 
 var searchResultTemplate = Handlebars.compile(
   '<div class="grid">' +
-    '<a class="search-result whole" href="/{{id}}.html">' +
-      '<h3>{{title}}</h3>' +
-      '<div class="grid">' +
-        '<h4 class="half unit">{{author}}</h4>' +
-        '<div class="half unit snippet-tags">' +
-          '{{#each tags}}' +
-            '<a class="snippet-tag" href="/tags#t={{this}}">{{this}}</a>' +
-          '{{/each}}' +
+    '<div class="whole unit">' +
+      '<div class="search-result">' +
+        '<a class="result-title" href="/{{id}}.html">{{title}}</a>' +
+        '<div class="grid">' +
+          '<p class="result-desc half unit">{{{desc}}}</p>' +
+          '<div class="half unit snippet-tags">' +
+            '{{#each tags}}' +
+              '<a class="snippet-tag" href="/tags#t={{this}}">{{this}}</a>' +
+            '{{/each}}' +
+          '</div>' +
         '</div>' +
       '</div>' +
-    '</a>' +
+    '</div>' +
   '</div>')
 
 function performSearch() {
@@ -79,10 +88,15 @@ function performSearch() {
       }, true)
     })
     .each(function (val) {
-      $(".search-results").show();
       $(".search-results-body")
         .append(searchResultTemplate(val));
     });
+
+  setTimeout(function () {
+    $(".search-results").css({
+      height : $(".search-results-body").outerHeight(true),
+    });
+  }, 0)
 }
 
 if(window.searchPage)
