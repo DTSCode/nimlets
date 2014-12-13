@@ -6,14 +6,14 @@
 ##     - macro
 ##     - testing123
 
-## A description written in [discount's markdown dialect](
-## http://www.pell.portland.or.us/~orc/Code/discount/)
+## A description written in [discount's markdown dialect][tagtest]
 ## It supports images too!
 ##
 ## > Some guy said some stuff
 ##
 ## ## Awesome Cat!
 ## ![cat](http://i.imgur.com/Sibekhc.jpg)
+## [tagtest]: http://www.pell.portland.or.us/~orc/Code/discount/
 
 import macros
 
