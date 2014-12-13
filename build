@@ -3,7 +3,7 @@
 BASEDIR=$(dirname $0)
 
 TARGETDIR=""
-if [[ ! -z $1 ]]; then
+if [ ! -z "$1" ]; then
   TARGETDIR=$1
 else
   TARGETDIR="$BASEDIR/output"
