@@ -113,3 +113,8 @@ footer a {
   color: #555;
   text-decoration: none;
 }
+
+.snippet-download {
+  color: #000;
+  float: right;
+}

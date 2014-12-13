@@ -13,6 +13,7 @@ let stylesheets: seq[string] = @[
   "//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css",
   "/stylesheets/gridism.css",
   "/stylesheets/syntax-highlight.css",
+  "/stylesheets/fontello.css",
 
   "/stylesheets/base.css",
 ]

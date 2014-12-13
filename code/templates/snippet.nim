@@ -1,4 +1,4 @@
-from strutils import `%`
+from strutils import `%`, replace
 import util
 from parse_snippets import Snippet
 import templates.base
@@ -16,7 +16,10 @@ proc renderSnippet(snippet: Snippet): string =
   return """
   <div class="snippet-header">
     <div class="grid">
-      <h1 class="unit whole snippet-name">$#</h1>
+      <h1 class="unit whole snippet-name">
+        $#
+      <a class="icon-download snippet-download" href="data:application/octet-stream,$#" filename="$#"></a>
+      </h1>
     </div>
     <div class="grid">
       <div class="unit half snippet-author">$#</div>
@@ -33,6 +36,8 @@ proc renderSnippet(snippet: Snippet): string =
   </div>
   """ % [
     escapeHtml(snippet.title),
+    escapeUrlComponent(snippet.code),
+    escapeUrlComponent(snippet.id.replace("-", "_")),
     escapeHtml(snippet.author),
     renderTags(snippet.tags),
     snippet.description,
