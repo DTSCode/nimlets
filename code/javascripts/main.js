@@ -108,7 +108,13 @@ function performSearch() {
 if(window.searchPage){
   initSearch();
   if(getParameterByName("q")){
-    $("#search-query").val(getParameterByName("q"));
-    performSearch();
+    function waitForLoad() {
+      if(window['searchData'] == undefined){
+        setTimeout(waitForLoad, 50)
+      } else {
+        $("#search-query").val(getParameterByName("q"));
+        performSearch();
+      }
+    }
   }
 }
