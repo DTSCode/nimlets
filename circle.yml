@@ -1,0 +1,29 @@
+dependencies:
+  pre:
+    - mkdir ~/nim/
+    - git clone -b devel --depth 1 https://github.com/Araq/Nimrod.git ~/nim/
+    - git clone -b devel --depth 1 git://github.com/nimrod-code/csources ~/nim/csources/
+    - sh ~/nim/csources/build.sh
+    - ~/nim/build/nim c koch
+    - ~/nim/koch boot
+    - ln -s ~/bin/nim ~/nim/bin/nim
+
+  cache_directories:
+    - "~/bin/"
+    - "~/nim/"
+
+## Customize test commands
+test:
+  override:
+    - ./build
+
+## Customize deployment commands
+deployment:
+  staging:
+    branch: master
+    commands:
+      - git init output/
+      - git -C output/ add .
+      - git -C output/ commit -m 'Build Site'
+      - git -C output/ remote add origin git@github.com:nimlets/nimlets.github.io.git
+      - git -C output/ push origin master
