@@ -108,7 +108,7 @@ function performSearch() {
 if(window.searchPage){
   initSearch();
   if(getParameterByName("q")){
-    function waitForLoad() {
+    var waitForLoad = function () {
       if(window['searchData'] == undefined){
         setTimeout(waitForLoad, 50)
       } else {
@@ -116,5 +116,6 @@ if(window.searchPage){
         performSearch();
       }
     }
+    waitForLoad();
   }
 }
