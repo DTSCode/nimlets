@@ -2,6 +2,13 @@
 
 BASEDIR=$(dirname $0)
 
+TARGETDIR=""
+if [[ ! -z $1 ]]; then
+  TARGETDIR=$1
+else
+  TARGETDIR="$BASEDIR/output"
+fi
+
 cd $BASEDIR
 
 code/lib/py-init
@@ -9,8 +16,8 @@ code/lib/py-init
 
 peru sync
 
-mkdir output
-cp -R code/stylesheets/ output/stylesheets
-cp -R code/javascripts/ output/javascripts
+mkdir $TARGETDIR
+cp -R code/stylesheets/ $TARGETDIR/stylesheets
+cp -R code/javascripts/ $TARGETDIR/javascripts
 
-nim c -r code/generate.nim ./snippets/ ./output/
+nim c -r code/generate.nim ./snippets/ $TARGETDIR

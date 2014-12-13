@@ -23,7 +23,7 @@ dependencies:
 ## Customize test commands
 test:
   override:
-    - ./build
+    - ./build $CIRCLE_ARTIFACTS
 
 ## Customize deployment commands
 deployment:
@@ -32,8 +32,8 @@ deployment:
     commands:
       - git config --global user.email "you@example.com"
       - git config --global user.name "Your Name"
-      - git init output/
-      - git -C output/ add .
-      - git -C output/ commit -m 'Build Site'
-      - git -C output/ remote add origin git@github.com:nimlets/nimlets.github.io.git
-      - git -C output/ push origin master
+      - git init $CIRCLE_ARTIFACTS
+      - git -C $CIRCLE_ARTIFACTS add .
+      - git -C $CIRCLE_ARTIFACTS commit -m 'Build Site'
+      - git -C $CIRCLE_ARTIFACTS remote add origin git@github.com:nimlets/nimlets.github.io.git
+      - git -C $CIRCLE_ARTIFACTS push origin master
