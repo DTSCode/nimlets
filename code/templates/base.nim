@@ -42,6 +42,19 @@ proc renderBase*(title, inner: string): string =
   </head>
   <body>
     $2
+    <footer>
+      <div class="grid">
+        <div class="whole unit">
+          <nav>
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="/sitemap.html">Sitemap</a></li>
+              <li><a href="https://github.com/nimlets/nimlets">Github</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </footer>
     <!-- begin js -->
     $4
     <!-- end js -->

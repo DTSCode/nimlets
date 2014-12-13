@@ -103,3 +103,13 @@ a.snippet-tag:hover {
   
   padding: 5px;
 }
+
+footer li {
+  display: inline;
+  padding: 0px 30px;
+}
+
+footer a {
+  color: #555;
+  text-decoration: none;
+}
