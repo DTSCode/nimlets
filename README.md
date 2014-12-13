@@ -19,13 +19,13 @@ By submitting a pull request, you licence your code under the MIT licence.
 
 Building
 ---
-To build the output artifacts simply run "./build" in the root directory. This
+To build the output artifacts simply run `build` in the root directory. This
 will set up dependencies, compile the snippets to html, and place them in
 `output/`.
 
 See [`./code/notes.md`][notes] for details on the structure of the software.
 
-[notes][https://github.com/nimlets/nimlets.github.io/blob/master/code/notes.md]
+  [notes]: https://github.com/nimlets/nimlets.github.io/blob/master/code/notes.md
 
 
 Testing
