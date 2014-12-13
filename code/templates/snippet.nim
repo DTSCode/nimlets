@@ -26,10 +26,10 @@ proc renderSnippet(snippet: Snippet): string =
     </div>
   </div>
   <div class="grid">
-    <div class="unit whole snippet-description">$#</div>
+    <div class="unit whole snippet-description subsection">$#</div>
   </div>
   <div class="grid">
-    <div class="unit whole snippet-code">$#</div>
+    <div class="unit whole snippet-code subsection">$#</div>
   </div>
   """ % [
     escapeHtml(snippet.title),

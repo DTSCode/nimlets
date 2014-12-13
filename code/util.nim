@@ -1,4 +1,10 @@
 from strutils import toHex, replace
+from tables import Table, pairs
+
+proc keyVal*[T1, T2](self: Table[T1, T2]): seq[tuple[k: T1, v: T2]] =
+  result = @[]
+  for key, val in self:
+    result.add((key, val))
 
 proc escapedStringLen(origLen: int): int =
   # 1.1x original size
