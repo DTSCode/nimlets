@@ -9,4 +9,8 @@ code/lib/py-init
 
 peru sync
 
+mkdir output
+cp -R code/stylesheets/ output/stylesheets
+cp -R code/javascripts/ output/javascripts
+
 nim c -r code/generate.nim ./snippets/ ./output/
