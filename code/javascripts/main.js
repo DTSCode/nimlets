@@ -18,7 +18,7 @@ function initSearch() {
   $(".search-area").keypress(submitEvent)
 
   if (window['searchData'] == undefined)
-    $.get("http://localhost:8888/document_index.json").success(function(data){
+    $.get("/document_index.json").success(function(data){
 
       console.log("got search index");
       window.searchData = new Fuse(data, {
