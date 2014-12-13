@@ -1,5 +1,11 @@
 "use strict"
 
+function getParameterByName(name) {
+  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
 
 $.fn.redraw = function(){
   return $(this).each(function(){
@@ -61,7 +67,7 @@ var searchResultTemplate = Handlebars.compile(
           '<p class="result-desc half unit">{{{desc}}}</p>' +
           '<div class="half unit snippet-tags">' +
             '{{#each tags}}' +
-              '<a class="snippet-tag" href="/tags#t={{this}}">{{this}}</a>' +
+              '<a class="snippet-tag" href="/?q=%5B{{this}}%5D">{{this}}</a>' +
             '{{/each}}' +
           '</div>' +
         '</div>' +
@@ -99,5 +105,10 @@ function performSearch() {
   }, 0)
 }
 
-if(window.searchPage)
-  initSearch()
+if(window.searchPage){
+  initSearch();
+  if(getParameterByName("q")){
+    $("#search-query").val(getParameterByName("q"));
+    performSearch();
+  }
+}

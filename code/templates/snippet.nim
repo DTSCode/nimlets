@@ -7,7 +7,7 @@ proc renderTags(tags: seq[string]): string =
   result = ""
   for tag in tags:
     result.add("""
-      <a class="snippet-tag" href="/tags#t=$1">$2</a>""" % [
+      <a class="snippet-tag" href="/?q=%5B$1%5D">$2</a>""" % [
         escapeUrlComponent(tag),
         escapeHtml(tag),
     ])
