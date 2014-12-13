@@ -52,5 +52,7 @@ while snippetChannel.peek != 0:
   snippets.add(snippetChannel.recv())
 
 import templates.document_index
+import templates.sitemap
 (targetDir / "document_index.json").writeFile(renderDocumentIndex(snippets))
 (targetDir / "index.html").writeFile(renderHome())
+(targetDir / "sitemap.html").writeFile(renderSitemap(snippets))
