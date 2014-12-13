@@ -58,8 +58,8 @@ var searchResultTemplate = Handlebars.compile(
         '</div>' +
       '</div>' +
     '</a>' +
-  '</div>'
-)
+  '</div>')
+
 function performSearch() {
   var query = $("#search-query").val();
   query = processQuery(query)
@@ -79,7 +79,6 @@ function performSearch() {
       }, true)
     })
     .each(function (val) {
-      console.log(val);
       $(".search-results").show();
       $(".search-results-body")
         .append(searchResultTemplate(val));
