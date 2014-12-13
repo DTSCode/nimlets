@@ -30,6 +30,8 @@ deployment:
   staging:
     branch: master
     commands:
+      - git config --global user.email "you@example.com"
+      - git config --global user.name "Your Name"
       - git init output/
       - git -C output/ add .
       - git -C output/ commit -m 'Build Site'
