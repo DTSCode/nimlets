@@ -41,4 +41,4 @@ deployment:
       - git -C $CIRCLE_ARTIFACTS add .
       - git -C $CIRCLE_ARTIFACTS commit -m 'Build Site'
       - git -C $CIRCLE_ARTIFACTS remote add origin git@github.com:nimlets/nimlets.github.io.git
-      - git -C $CIRCLE_ARTIFACTS push origin master
+      - git -C $CIRCLE_ARTIFACTS push --force origin master
