@@ -6,7 +6,7 @@ dependencies:
     - cd ~/nim/csources; sh build.sh
     - cd ~/nim/; bin/nim c koch
     - cd ~/nim/; ./koch boot
-    - ln -s ~/bin/nim ~/nim/bin/nim
+    - ln -s ~/nim/bin/nim ~/bin/nim
 
   cache_directories:
     - "~/bin/"
