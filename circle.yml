@@ -1,5 +1,6 @@
 dependencies:
   pre:
+    - sudo apt-get install python3-dev gcc
     - mkdir ~/nim/
     - git clone -b devel --depth 1 https://github.com/Araq/Nimrod.git ~/nim/
     - git clone -b devel --depth 1 git://github.com/nimrod-code/csources ~/nim/csources/
