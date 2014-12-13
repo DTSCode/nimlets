@@ -5,6 +5,7 @@ let scripts: seq[string] = @[
   "//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js",
   "//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.7.0/underscore-min.js",
   "//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.min.js",
+  "//cdnjs.cloudflare.com/ajax/libs/fuse.js/1.2.2/fuse.min.js",
 
   "/javascripts/main.js",
 ]

@@ -10,74 +10,80 @@ function initSearch() {
   }
   $("div #search-area").keypress(submitEvent)
 
-  if (window['searchIndex'] == undefined ||
-      window['idToName'] == undefined)
-    $.get("http://localhost:8888/search_index.json").success(function(data){
+  if (window['searchData'] == undefined)
+    $.get("http://localhost:8888/document_index.json").success(function(data){
+
       console.log("got search index");
-      window.searchIndex = data["index"];
-      window.idToName = data["idToName"];
+      window.searchData = new Fuse(data, {
+        keys: ['author', 'title', 'code', 'desc'],
+      });
+
     }).fail(function(failcode){
       console.log("failed to get index: ");
       console.log(failcode);
     });
 }
 
-function tokenizeSearchQuery(query) {
-  var seperators = / |\.|\n|\r|\t|\(|\)|\{|\}|:|;|!|\?/;
-  var result = query.split(seperators);
-  result = _.filter(result, function(val){ return val.length != 0; });
-  return result;
+function processQuery(query) {
+  /* Returns ["query without tags", ["list", "of", "tags"]]
+   *
+   * A tag looks like `[foo-bar]`
+   */
+  var tags = []
+  var re = /\[\s*([^\]\[\s]+)\s*\]/g;
+  var m;
+
+  while ((m = re.exec(query)) != null) {
+    if (m.index === re.lastIndex) re.lastIndex++;
+    tags.push(m[1]);
+  }
+
+  var newQuery = query
+    .replace(re, "")
+    .replace(/\s{2,}/, " ");
+
+  return [newQuery, tags];
 }
 
-function getRelevences(terms) {
-  var selectedWeights = _.pick.apply(null, [window.searchIndex].concat(terms));
-
-  var result = _.reduce(selectedWeights, function(accm, curr){
-    _.each(curr, function(val){
-      if(val.doc in accm)
-        accm[val.doc] += val.rel;
-      else
-        accm[val.doc] = val.rel;
-    });
-
-    return accm;
-  }, {});
-
-  result = _(result).chain()
-    .pairs()
-    .map(function (v) { return [v[1], v[0]] })
-    .sortBy(function (v) { return v[0] })
-    .first(50)
-    .map(function (v) { return v[1] })
-    .value();
-
-  return result
-}
-
+var searchResultTemplate = Handlebars.compile(
+  '<div class="grid">' +
+    '<a class="search-result whole" href="/{{id}}.html">' +
+      '<h3>{{title}}</h3>' +
+      '<div class="grid">' +
+        '<h4 class="half unit">{{author}}</h4>' +
+        '<div class="half unit snippet-tags">' +
+          '{{#each tags}}' +
+            '<a class="snippet-tag" href="/tags#t={{this}}">{{this}}</a>' +
+          '{{/each}}' +
+        '</div>' +
+      '</div>' +
+    '</a>' +
+  '</div>'
+)
 function performSearch() {
   var query = $("#search-query").val();
-  var queryTokens = tokenizeSearchQuery(query)
+  query = processQuery(query)
 
-  var results = getRelevences(queryTokens)
+  $(".search-results-body").empty();
 
-  var resultBody = $(".search-results-body")
-  resultBody.empty();
+  var searchResults = window.searchData.search(query[0]);
+  if(_(searchResults).isEmpty())
+    searchResults = window.searchData.list
 
-  _(results).each(function (val) {
-    var template = Handlebars.compile(
-      '<div class="grid search-result">' +
-      '  <div class="unit whole">' +
-      '    <a href="{{{ url }}}">{{ name }}</a>' +
-      '  </div>' +
-      '</div>')
-
-    resultBody.append(template({
-      url : "/" + val + ".html",
-      name : window.idToName[val],
-    }))
-  })
-
-  $('.search-results').show();
+  _(searchResults)
+    .chain()
+    .filter(function (val) {
+      var tags = query[1];
+      return _(tags).isEmpty() || _(tags).reduce(function (accm, curr) {
+        return accm && _(val.tags).contains(curr);
+      }, true)
+    })
+    .each(function (val) {
+      console.log(val);
+      $(".search-results").show();
+      $(".search-results-body")
+        .append(searchResultTemplate(val));
+    });
 }
 
 if(window.searchPage)
