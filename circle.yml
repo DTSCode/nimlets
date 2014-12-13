@@ -4,8 +4,8 @@ dependencies:
     - git clone -b devel --depth 1 https://github.com/Araq/Nimrod.git ~/nim/
     - git clone -b devel --depth 1 git://github.com/nimrod-code/csources ~/nim/csources/
     - cd ~/nim/csources; sh build.sh
-    - ~/nim/bin/nim c koch
-    - ~/nim/koch boot
+    - cd ~/nim/; bin/nim c koch
+    - cd ~/nim/; ./koch boot
     - ln -s ~/bin/nim ~/nim/bin/nim
 
   cache_directories:
