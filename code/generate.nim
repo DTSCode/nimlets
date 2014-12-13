@@ -2,7 +2,6 @@ import os
 from strutils import endsWith, `%`
 import parse_snippets
 import threadPool
-import generate_stats
 import templates.index
 import tables
 
@@ -52,12 +51,6 @@ var snippets: seq[Snippet] = @[]
 while snippetChannel.peek != 0:
   snippets.add(snippetChannel.recv())
 
-let indexData = analyze(snippets)
-var idToName = initTable[string, string]()
-for snip in snippets:
-  idToName[snip.id] = snip.title
-
-import templates.search_index
-
-(targetDir / "search_index.json").writeFile(renderIndex(indexData, idToName))
+import templates.document_index
+(targetDir / "document_index.json").writeFile(renderDocumentIndex(snippets))
 (targetDir / "index.html").writeFile(renderHome())

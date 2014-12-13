@@ -15,24 +15,21 @@ proc renderHome*(): string =
     </h2>
   </div>
 
-  <div class="grid">
-    <div class="unit whole" id="search-area">
-      <input id="search-query"
-             type="search"
-             autofocus
-             autocomplete="off"
-             placeholder="Search"
-             class="search">
-    </div>
+  <div class="search-area subsection">
+    <script>
+    (function() {
+      var cx = '013569886790416879332:nievnee8p10';
+      var gcse = document.createElement('script');
+      gcse.type = 'text/javascript';
+      gcse.async = true;
+      gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+          '//www.google.com/cse/cse.js?cx=' + cx;
+      var s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(gcse, s);
+    })();
+    </script>
+    <gcse:search></gcse:search>
   </div>
 
-  <div class="search-results" style="display: none;">
-    <div class="grid">
-      <h2 class="unit whole search-results-title">Search Results</h2>
-    </div>
-    <div class="search-results-body"></div>
-  </div>
-
-  <script>window.searchPage = true;</script>
   """)
 
