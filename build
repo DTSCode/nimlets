@@ -16,8 +16,8 @@ code/lib/py-init
 
 peru sync
 
-mkdir $TARGETDIR
-cp -R code/stylesheets/ $TARGETDIR/stylesheets
-cp -R code/javascripts/ $TARGETDIR/javascripts
+find "$TARGETDIR/" -mindepth 1 -delete
+cp -r code/stylesheets/ $TARGETDIR/stylesheets
+cp -r code/javascripts/ $TARGETDIR/javascripts
 
 nim c -r code/generate.nim ./snippets/ $TARGETDIR
