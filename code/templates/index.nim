@@ -18,8 +18,7 @@ proc renderHome*(): string =
              type="search"
              autofocus
              autocomplete="off"
-             placeholder="Search"
-             class="search">
+             placeholder="Search">
     </div>
   </div>
 
