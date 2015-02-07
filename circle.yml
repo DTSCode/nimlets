@@ -2,18 +2,18 @@ dependencies:
   pre:
     - sudo apt-get install python3-dev gcc
     - |
-        if [ ! -x ~/nim/bin/nim ];
-        then
-          git clone -b devel --depth 1 https://github.com/Araq/Nimrod.git ~/nim/
-          git clone -b devel --depth 1 git://github.com/nimrod-code/csources ~/nim/csources/
-          cd ~/nim/csources
-          sh build.sh
-          cd ../
-          bin/nim c koch
-          ./koch boot
-          if [ ! -a ~/bin/nim]; then
-            ln -s ~/nim/bin/nim ~/bin/nim
+        if [ ! -x ~/bin/nim ]; then
+          if [ ! -x ~/nim/bin/nim ]; then
+            git clone -b devel --depth 1 https://github.com/Araq/Nimrod.git ~/nim/
+            git clone -b devel --depth 1 git://github.com/nimrod-code/csources ~/nim/csources/
+            cd ~/nim/csources
+            sh build.sh
+            cd ../
+            bin/nim c koch
+            ./koch boot
           fi
+
+          ln -s ~/nim/bin/nim ~/bin/nim
         fi
 
   cache_directories:
