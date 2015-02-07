@@ -34,7 +34,8 @@ deployment:
       - echo "-----BEGIN EC PRIVATE KEY-----" >> ~/ghdep
       - sed 's/\./\n/g' <(echo "$GH_SSH_KEY") >> ~/ghdep
       - echo "-----END EC PRIVATE KEY-----" >> ~/ghdep
-      - echo "Host github.com\n  IdentityFile ~/ghdep" > ~/.ssh/config
+      - chmod og-rwx ~/ghdep
+      - echo -e "Host github.com\n  IdentityFile ~/ghdep" > ~/.ssh/config
       - git config --global user.email "you@example.com"
       - git config --global user.name "Your Name"
       - git init $CIRCLE_ARTIFACTS
