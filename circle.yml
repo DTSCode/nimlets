@@ -32,7 +32,7 @@ deployment:
     branch: master
     commands:
       - echo "-----BEGIN EC PRIVATE KEY-----" >> ~/ghdep
-      - echo "$GH_SSH_KEY" >> ~/ghdep
+      - sed 's/\./\n/g' <(echo "$GH_SSH_KEY") >> ~/ghdep
       - echo "-----END EC PRIVATE KEY-----" >> ~/ghdep
       - echo "Host github.com\n  IdentityFile ~/ghdep" > ~/.ssh/config
       - git config --global user.email "you@example.com"
