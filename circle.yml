@@ -31,11 +31,13 @@ deployment:
   staging:
     branch: master
     commands:
-      - echo "-----BEGIN EC PRIVATE KEY-----" >> ~/ghdep
-      - sed 's/\./\n/g' <(echo "$GH_SSH_KEY") >> ~/ghdep
-      - echo "-----END EC PRIVATE KEY-----" >> ~/ghdep
-      - chmod og-rwx ~/ghdep
-      - echo -e "Host github.com\n  IdentityFile ~/ghdep" > ~/.ssh/config
+      - echo "-----BEGIN EC PRIVATE KEY-----" >> ~/.ssh/ghdep
+      - sed 's/\./\n/g' <(echo "$GH_SSH_KEY") >> ~/.ssh/ghdep
+      - echo "-----END EC PRIVATE KEY-----" >> ~/.ssh/ghdep
+      - chmod og-rwx ~/.ssh/ghdep
+      - echo -e "Host github.com\n  IdentityFile ~/.ssh/ghdep" > ~/.ssh/config
+      - echo "$GH_PUB_KEY" > ~/.ssh/ghdep.pub
+      - chmod og-rwx ~/.ssh/ghdep.pub
       - git config --global user.email "you@example.com"
       - git config --global user.name "Your Name"
       - git init $CIRCLE_ARTIFACTS
